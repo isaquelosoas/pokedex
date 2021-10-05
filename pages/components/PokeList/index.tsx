@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import globalStyles from '../../../styles/globalStyle'
 import PokeCard from '../PokeCard'
 import axios from 'axios'
+import Modal from '../Modal'
 interface PokeData{  
     pokemon: {
       id: number,
@@ -26,16 +27,19 @@ interface PokeData{
         num: string,
         name: string,
       }, 
-    }[]
-  
+    }[]  
 }
-const PokeList:React.FC = () => {
+interface PokeListProps{
+  filterValue:string
+}
+const PokeList = ({filterValue}:PokeListProps) => {
   const refMain = useRef(null)
   const [loading, setLoading] = useState(true)
   const [resized, setResized] = useState<boolean>(false)
   const [maxColumns, setMaxColumns] = useState<number>(0)
   const [maxRows, setMaxRows] = useState<number>(0)
   const [data, setData] = useState<PokeData | null>(null)
+  const [modal,setModal] = useState<boolean>(false)
   useEffect(()=>{
     window.addEventListener("resize",()=>{
       setResized(true)
@@ -52,36 +56,51 @@ const PokeList:React.FC = () => {
   },[resized])
   useEffect(()=>{
     const request = async () =>{
+      await new Promise(r => setTimeout(r, 3000));     
       const response = await axios.request<PokeData>({
         method:"GET",
         url: 'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json',        
       }).then((response) => {
-        // `response` is of type `AxiosResponse<ServerData>`
         setData(response.data)
-        console.log(response)
-        // `data` is of type ServerData, correctly inferred
-      })      
+        setLoading(false)
+      }) 
     }
     request()
-    setLoading(false)
-  },[])
+  },[])  
   const renderLoadingCards = ()=>{
     const numCards = new Array(maxRows*maxColumns+1).fill("loading")
-    return numCards.map((card,i)=><PokeCard key={i} loading/>)
-
+    return numCards.map((card,i)=><PokeCard modal={modal} onClick={()=>{}} key={i} loading/>)
+  }   
+  const renderFilteredValues = () =>{
+    if(data){
+      const re = new RegExp(filterValue, "gi")      
+      const filteredData = data.pokemon.filter(d=>{
+        return re.test(d.name) || parseInt(d.num) === parseInt(filterValue) 
+      })
+      
+      return filteredData.length>0?filteredData.map(d=>{
+        const {name,id,num,img,type} =  d
+        const pokemon = {id,num,name,img,type}
+        return <PokeCard onClick={()=>{setModal(true)}} modal={modal} loading={loading} key={id} pokemon={pokemon} />
+      }):<h1>No Results :(</h1>
+    }
+    else{
+      renderLoadingCards()
+    }
   }
   return ( 
     <Container>
+      {modal&&<Modal onClick={()=>{setModal(false)}}/>}
       <section ref={refMain}>
         {
           loading&&renderLoadingCards()
         }     
-        {
-          
-          data&&data.pokemon.map(p=>{
+        {filterValue&&renderFilteredValues()}
+        {          
+          data&&!filterValue&&data.pokemon.map(p=>{
             const {id,num,name,img,type} = p
             const pokemon = {id,num,name,img,type}
-            return <PokeCard loading={loading} key={id} pokemon={pokemon} />
+            return <PokeCard onClick={()=>{setModal(true)}} modal={modal} loading={loading} key={id} pokemon={pokemon} />
           })
         } 
       </section>

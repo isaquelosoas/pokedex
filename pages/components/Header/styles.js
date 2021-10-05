@@ -32,11 +32,16 @@ export const Container = styled.div`
                 background-color:#EE6B2F;
                 border:none;
                 outline:none;
-                border-left:1px solid #2C2C2C;      
+                border-left:1px solid #2C2C2C;  
+                transition: 0.2s;    
                 
             }
+            button:hover{
+                cursor:pointer; 
+                background-color:#787878;               
+            }
         }
-    }
+    }    
     @media (min-width: 600px) {
       h1{
           text-align:left;

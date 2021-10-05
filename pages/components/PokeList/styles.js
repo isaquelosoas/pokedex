@@ -13,8 +13,8 @@ export const Container = styled.div`
         gap:0px;
         flex-wrap:wrap;
         display:flex;
-        align-items:center;
-        justify-content:center;
+        align-items:flex-start;
+        justify-content:flex-start;
         width:100%;
     }
     @media (min-width: 600px) {
