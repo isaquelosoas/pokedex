@@ -19,7 +19,7 @@ export const Container = styled.div`
         width:100%;
         padding:10px;
         img{
-            width:40px;
+            max-width:0.0025rem;
         }        
     }
     .modal{
@@ -72,6 +72,7 @@ export const Container = styled.div`
         align-items:center;
         justify-content:space-between;
         h3{
+            font-size:0.9rem;
             font-family: 'Roboto', sans-serif;
             color:#898989
         }

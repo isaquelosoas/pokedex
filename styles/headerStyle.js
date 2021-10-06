@@ -24,11 +24,12 @@ export const Container = styled.div`
                 padding:10px;
                 font-size:15pt;
                 flex:1;
+                max-width:88%;
                 border:none;
                 outline:none;
             }
             button{
-                max-width:40px;
+                max-width:12%;
                 background-color:#EE6B2F;
                 border:none;
                 outline:none;
