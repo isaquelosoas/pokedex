@@ -19,6 +19,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Contribute
 
-You can check out [pedro-places repository](https://github.com/isaquelosoas/pedro-places) - your feedback and contributions are welcome!
+You can check out [pokedex repository](https://github.com/isaquelosoas/pokedex) - your feedback and contributions are welcome!
 
 
