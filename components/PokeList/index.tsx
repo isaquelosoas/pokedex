@@ -96,7 +96,7 @@ const PokeList = ({filterValue}:PokeListProps) => {
       return filteredData.length>0?filteredData.map(d=>{
         const {name,id,num,img,type} =  d
         const pokemon = {id,num,name,img,type}
-        return <PokeCard onClick={()=>{setModal(true)}} modal={modal} loading={loading} key={id} pokemon={pokemon} />
+        return <PokeCard onClick={()=>{renderModal}} modal={modal} loading={loading} key={id} pokemon={pokemon} />
       }):<h1>No Results :(</h1>
     }
     else{
