@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import {Container} from './styles.js'
-import SearchIcon from '../../../public/search.svg'
+import {Container} from '../../styles/headerStyle'
+import SearchIcon from '../../public/search.svg'
 import { useRef } from 'react'
 interface HeaderProps{
   handleFilter: (value:string)=>void

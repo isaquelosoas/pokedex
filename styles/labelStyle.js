@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import globalStyle from '../../../styles/globalStyle'
+import globalStyle from './globalStyle'
 const {typeColors} = globalStyle
 export const Label = styled.label`
     padding:5px;

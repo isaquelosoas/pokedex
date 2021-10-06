@@ -1,33 +1,39 @@
 import Image from 'next/image'
-import {Container} from './styles.js'
+import {Container} from '../../styles/indexStyle'
 import SearchIcon from '../../../public/search.svg'
 import { useEffect, useRef, useState } from 'react'
-import globalStyles from '../../../styles/globalStyle'
+import globalStyles from '../../styles/globalStyle'
 import PokeCard from '../PokeCard'
 import axios from 'axios'
 import Modal from '../Modal'
-interface PokeData{  
-    pokemon: {
-      id: number,
+interface Pokemon{
+    id: number,
+    num: string,
+    name: string,
+    img: string,
+    type: string[],
+    height: string,
+    weight: string,
+    candy: string,
+    candy_count: number,
+    egg:string,
+    spawn_chance: number,
+    avg_spawns: number,
+    spawn_time: string,
+    multipliers: number[],
+    weaknesses: string[],
+    next_evolution: {
       num: string,
       name: string,
-      img: string,
-      type: string[],
-      height: string,
-      weight: string,
-      candy: string,
-      candy_count: number,
-      egg:string,
-      spawn_chance: number,
-      avg_spawns: number,
-      spawn_time: string,
-      multipliers: number[],
-      weaknesses: string[],
-      next_evolution: {
-        num: string,
-        name: string,
-      }, 
-    }[]  
+    }  
+}
+interface PokeData{  
+    pokemon: Pokemon[]  
+}
+interface CurrentPokemon{
+  pokemon:Pokemon,
+  prev:number,
+  next:number
 }
 interface PokeListProps{
   filterValue:string
@@ -38,6 +44,7 @@ const PokeList = ({filterValue}:PokeListProps) => {
   const [resized, setResized] = useState<boolean>(false)
   const [maxColumns, setMaxColumns] = useState<number>(0)
   const [maxRows, setMaxRows] = useState<number>(0)
+  const [currentPokemon,setCurrentPokemon] = useState<CurrentPokemon | null>(null)
   const [data, setData] = useState<PokeData | null>(null)
   const [modal,setModal] = useState<boolean>(false)
   useEffect(()=>{
@@ -70,7 +77,15 @@ const PokeList = ({filterValue}:PokeListProps) => {
   const renderLoadingCards = ()=>{
     const numCards = new Array(maxRows*maxColumns+1).fill("loading")
     return numCards.map((card,i)=><PokeCard modal={modal} onClick={()=>{}} key={i} loading/>)
-  }   
+  } 
+  const renderModal= (id:number) =>{
+    const modalPokemon = data?data.pokemon.filter(p=>p.id===id):null
+    console.log(modalPokemon)
+    if(modalPokemon){
+      setModal(true)
+      setCurrentPokemon({pokemon:modalPokemon[0],prev:id===1?1:id-1,next:id===151?151:id+1})
+    }    
+  }  
   const renderFilteredValues = () =>{
     if(data){
       const re = new RegExp(filterValue, "gi")      
@@ -90,7 +105,7 @@ const PokeList = ({filterValue}:PokeListProps) => {
   }
   return ( 
     <Container>
-      {modal&&<Modal onClick={()=>{setModal(false)}}/>}
+      {modal&&currentPokemon&&<Modal pokemon={currentPokemon.pokemon} onPrev={()=>{renderModal(currentPokemon.prev)}} onNext={()=>{renderModal(currentPokemon.next)}} onClick={()=>{setModal(false)}}/>}
       <section ref={refMain}>
         {
           loading&&renderLoadingCards()
@@ -100,7 +115,7 @@ const PokeList = ({filterValue}:PokeListProps) => {
           data&&!filterValue&&data.pokemon.map(p=>{
             const {id,num,name,img,type} = p
             const pokemon = {id,num,name,img,type}
-            return <PokeCard onClick={()=>{setModal(true)}} modal={modal} loading={loading} key={id} pokemon={pokemon} />
+            return <PokeCard onClick={renderModal} modal={modal} loading={loading} key={id} pokemon={pokemon} />
           })
         } 
       </section>

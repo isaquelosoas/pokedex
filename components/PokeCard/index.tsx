@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import {Container} from './styles.js'
-import {Label} from './LabelStyle.js'
+import {Container} from '../../styles/pokeCardStyle'
+import {Label} from '../../styles/labelStyle'
 import SearchIcon from '../../../public/search.svg'
 interface PokeCardProps{
     modal:boolean,
-    onClick:()=>void
+    onClick:(id:number)=>void
     loading:boolean    
     pokemon?: {
         id: number,
@@ -16,7 +16,7 @@ interface PokeCardProps{
 }
 const PokeCard = ({loading,pokemon, onClick, modal}:PokeCardProps) => {  
   return ( 
-    <Container modal={modal} loading={loading} onClick={onClick}>       
+    <Container modal={modal} loading={loading} onClick={()=>{onClick(pokemon?pokemon.id:1)}}>       
         <figure>
             {pokemon&&<img src={pokemon.img} /> }
         </figure>

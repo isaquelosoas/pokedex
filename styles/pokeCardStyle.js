@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import globalStyle from '../../../styles/globalStyle'
+import globalStyle from './globalStyle'
 const {cardWidth, cardHeight, cardMargin} = globalStyle
 export const Container = styled.div` 
     ${props=>props.modal&&`pointer-events:none`}
@@ -14,7 +14,7 @@ export const Container = styled.div`
     width:100%;
     height:${cardHeight}px;
     flex-direction: column;
-    transition: ${props=>props.modal?"all 0.3s":"all 0s"}; 
+    transition:0.3s; 
     animation-name: ${props=>props.loading?"fade":""};
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
