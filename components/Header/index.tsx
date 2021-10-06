@@ -26,7 +26,8 @@ const Header = ({handleFilter}:HeaderProps) => {
                       const {value} = inputRef.current?inputRef.current:{value:""}
                       handleFilter(value)
                     }} 
-                    alt="Search Icon" />
+                    alt="Search Icon"
+                  />
                 </button>
             </form>
           </div>

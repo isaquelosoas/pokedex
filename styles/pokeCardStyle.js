@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import globalStyle from './globalStyle'
 const {cardWidth, cardHeight, cardMargin} = globalStyle
 export const Container = styled.div` 
-    ${props=>props.modal&&`pointer-events:none`}
-    
+    ${props=>props.modal&&`pointer-events:none`} /*disable hover behavior if modal is true*/    
     :hover{
         box-shadow:0.5rem 0.5rem 0.5rem #787878;
         transform:scale(1.02);

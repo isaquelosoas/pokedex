@@ -9,6 +9,7 @@ import { useState } from 'react'
 
 const Home: NextPage = () => {
   const [filterValue,setfilterValue] = useState<string>("")
+  //Passing value received from header to PokeList
   const filter = (value:string)=>{
     setfilterValue(value)
   }
